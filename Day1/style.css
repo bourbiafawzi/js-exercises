@@ -1,6 +1,74 @@
 body {
-  height: 40vh;
+  background-color: #87cefa;
+  font-family: "Inter", sans-serif;
+  font-weight: bold;
+}
+
+header {
+  margin-left: 5%;
+  font-family: "Roboto";
+  font-weight: bold;
+}
+.all-container {
   display: flex;
-  justify-content: center;
   align-items: center;
+  height: 60vh;
+  justify-content: center;
+}
+.container-project {
+  width: 280px;
+  height: 200px;
+}
+.container-result {
+  width: 250px;
+  height: 40px;
+  padding: 5px;
+  font-size: 30px;
+  margin-bottom: 5px;
+  background-color: white;
+  text-align: right;
+  font-family: "Roboto";
+  border: none;
+}
+input:focus {
+  background-color: #e0ffff; /* couleur lorsque l’input est actif */
+  outline: none; /* supprime le contour par défaut bleu */
+  border: none;
+}
+.container-body {
+  width: 280px;
+}
+
+.btn-operator {
+  width: 60px;
+  height: 60px;
+  margin: 1px;
+  background-color: #191970;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: "Roboto", sans-serif;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.btn-number,
+.btn-system {
+  width: 60px;
+  height: 60px;
+  margin: 1px;
+  background-color: #191970;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: "Roboto", sans-serif;
+  font-weight: bold;
+  font-size: 18px;
+}
+.btn-operator:hover {
+  background-color: #4169e1;
+}
+.btn-number:hover,
+.btn-system:hover {
+  background-color: #4169e1;
 }
