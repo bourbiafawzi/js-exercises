@@ -53,7 +53,9 @@ input:focus {
 }
 
 .btn-number,
-.btn-system {
+.btn-system,
+.btn-square,
+.btn-equal {
   width: 60px;
   height: 60px;
   margin: 1px;
@@ -69,6 +71,8 @@ input:focus {
   background-color: #4169e1;
 }
 .btn-number:hover,
-.btn-system:hover {
+.btn-system:hover,
+.btn-square:hover,
+.btn-equal:hover {
   background-color: #4169e1;
 }
