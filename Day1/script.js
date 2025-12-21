@@ -3,31 +3,32 @@ const buttonsOperator = document.querySelectorAll(".btn-operator");
 const buttonsSystem = document.querySelectorAll(".btn-system");
 const containerResult = document.querySelector(".container-result");
 const equal = document.querySelector(".btn-equal");
+const dot = document.querySelector(".btn-dot");
 let text;
 
 // click number button event
 for (let i = 0; i < buttonsNumber.length; i++) {
   buttonsNumber[i].addEventListener("click", () => {
-    if (containerResult.value == 0) containerResult.value = "";
+    if (containerResult.value == 0 && !verfiyDot(containerResult.value))
+      containerResult.value = "";
 
     containerResult.value =
       containerResult.value + buttonsNumber[i].textContent;
     text = containerResult.value;
-    divider(text);
   });
 }
 // click operator button event
 for (let i = 0; i < buttonsOperator.length; i++) {
   buttonsOperator[i].addEventListener("click", () => functionOperator(i));
 }
-// code for system's buttons
+// click system's buttons
 
 for (let i = 0; i < buttonsSystem.length; i++) {
   buttonsSystem[i].addEventListener("click", () => functionSystem(i));
 }
 //function that manage the operator + - * /
 function functionOperator(i) {
-  if (containerResult.value != 0) {
+  if (containerResult.value != 0 && !verfiyOperator(containerResult.value)) {
     if (
       containerResult.value[containerResult.value.length - 1] === "+" ||
       containerResult.value[containerResult.value.length - 1] === "-" ||
@@ -37,23 +38,31 @@ function functionOperator(i) {
       containerResult.value =
         containerResult.value.slice(0, -1) + buttonsOperator[i].textContent;
       text = containerResult.value;
-      divider(text);
     } else {
       containerResult.value =
         containerResult.value + buttonsOperator[i].textContent;
       text = containerResult.value;
-      divider(text);
+    }
+  } else if (verfiyOperator(containerResult.value)) {
+    containerResult.value =
+      result(divider(containerResult.value)) + buttonsOperator[i].textContent;
+  }
+}
+// function that manage the buttons C and CE
+function functionSystem(i) {
+  let div1 = divider(containerResult.value);
+  if (buttonsSystem[i].textContent === "C") {
+    containerResult.value = "0";
+  } else if (buttonsSystem[i].textContent === "CE") {
+    if (div1.avant && !div1.operator2 && !div1.apres) {
+      containerResult.value = 0;
+    } else if (div1.avant && div1.operator2 && !div1.apres) {
+      containerResult.value = div1.avant;
+    } else if (div1.apres) {
+      containerResult.value = div1.avant + div1.operator2;
     }
   }
 }
-// function that manage the buttons C CE
-function functionSystem(i) {
-  console.log(buttonsSystem[i].textContent);
-  if (buttonsSystem[i].textContent === "C") {
-    containerResult.value = "";
-  }
-}
-
 //THE OPERATOR EQUAL
 equal.addEventListener("click", () => {
   if (result(divider(containerResult.value))) {
@@ -65,25 +74,29 @@ equal.addEventListener("click", () => {
 function divider(t) {
   if (/.+[+\-*/].+/.test(t)) {
     const result = t.match(/(.+?)([+\-*/])(.+)/);
-    console.log(result[1], result[2], result[3]);
 
     return {
       avant: result[1],
       operator: result[2],
+      operator2: result[2],
       apres: result[3],
     };
   } else if (!/[+\-*/]/.test(t) && t != "")
     return {
       avant: t,
       operator: null,
+      operator2: null,
       apres: null,
     };
-  else if (/[+\-*/]$/.test(t))
+  else if (/[+\-*/]$/.test(t)) {
+    const operator = t.slice(-1);
     return {
       avant: t.slice(0, -1),
       operator: null,
+      operator2: operator,
       apres: null,
     };
+  } else if (/[.]/.test(t)) return { dot: true };
   else return false;
 }
 //function calculate result
@@ -97,5 +110,26 @@ function result(o) {
     else if (o.operator == "*") result = Number(o.avant) * Number(o.apres);
     return result;
   } else if (o && o.operator === null) return o.avant;
+  else return false;
+}
+//  click dot button
+dot.addEventListener("click", () => {
+  const div2 = divider(containerResult.value);
+  if (!verfiyDot(containerResult.value) && !div2.operator2) {
+    containerResult.value = containerResult.value + dot.textContent;
+    text = containerResult.value;
+  }
+});
+
+// function that verify if there is any operator
+function verfiyOperator(text) {
+  div = divider(text);
+  if (div.operator && div.apres) return true;
+  else return false;
+}
+
+// function that verify if there is already a dot
+function verfiyDot(text) {
+  if (/[.]/.test(text)) return true;
   else return false;
 }
