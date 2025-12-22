@@ -4,6 +4,8 @@ const buttonsSystem = document.querySelectorAll(".btn-system");
 const containerResult = document.querySelector(".container-result");
 const equal = document.querySelector(".btn-equal");
 const dot = document.querySelector(".btn-dot");
+const square = document.getElementById("btnxx");
+const minus = document.getElementById("btn-+");
 let text;
 
 // click number button event
@@ -80,6 +82,7 @@ function divider(t) {
       operator: result[2],
       operator2: result[2],
       apres: result[3],
+      cas: 1,
     };
   } else if (!/[+\-*/]/.test(t) && t != "")
     return {
@@ -87,6 +90,7 @@ function divider(t) {
       operator: null,
       operator2: null,
       apres: null,
+      cas: 2,
     };
   else if (/[+\-*/]$/.test(t)) {
     const operator = t.slice(-1);
@@ -95,6 +99,7 @@ function divider(t) {
       operator: null,
       operator2: operator,
       apres: null,
+      cas: 3,
     };
   } else if (/[.]/.test(t)) return { dot: true };
   else return false;
@@ -133,3 +138,36 @@ function verfiyDot(text) {
   if (/[.]/.test(text)) return true;
   else return false;
 }
+
+//click square button
+
+square.addEventListener("click", () => {
+  const div3 = divider(containerResult.value);
+  if (div3.cas === 2) {
+    containerResult.value = String(Number(div3.avant) * Number(div3.avant));
+  } else if (div3.cas === 1) {
+    containerResult.value =
+      div3.avant +
+      div3.operator +
+      String(Number(div3.apres) * Number(div3.apres));
+  } else if (div3.cas === 3) {
+    containerResult.value =
+      String(Number(div3.avant) * Number(div3.avant)) + div3.operator2;
+  }
+});
+//click minus button
+
+minus.addEventListener("click", () => {
+  const div4 = divider(containerResult.value);
+  if (div4.cas === 2) {
+    containerResult.value = String(Number(div4.avant) * -1);
+    console.log(2);
+  } else if (div4.cas === 1) {
+    containerResult.value =
+      div4.avant + div4.operator + String(Number(div4.apres) * -1);
+    console.log(1);
+  } else if (div4.cas === 3) {
+    containerResult.value = String(Number(div4.avant) * -1) + div4.operator2;
+    console.log(3);
+  }
+});
