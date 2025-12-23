@@ -120,9 +120,18 @@ function result(o) {
 //  click dot button
 dot.addEventListener("click", () => {
   const div2 = divider(containerResult.value);
-  if (!verfiyDot(containerResult.value) && !div2.operator2) {
+  if (div2.cas == 1 && !verfiyDot(div2.apres)) {
     containerResult.value = containerResult.value + dot.textContent;
     text = containerResult.value;
+    console.log(1);
+  } else if (div2.cas == 2 && !verfiyDot(div2.avant)) {
+    containerResult.value = containerResult.value + dot.textContent;
+    text = containerResult.value;
+    console.log(2);
+  } else if (div2.cas == 3) {
+    containerResult.value = containerResult.value + "0" + dot.textContent;
+    text = containerResult.value;
+    console.log(3);
   }
 });
 
@@ -161,13 +170,10 @@ minus.addEventListener("click", () => {
   const div4 = divider(containerResult.value);
   if (div4.cas === 2) {
     containerResult.value = String(Number(div4.avant) * -1);
-    console.log(2);
   } else if (div4.cas === 1) {
     containerResult.value =
       div4.avant + div4.operator + String(Number(div4.apres) * -1);
-    console.log(1);
   } else if (div4.cas === 3) {
     containerResult.value = String(Number(div4.avant) * -1) + div4.operator2;
-    console.log(3);
   }
 });
